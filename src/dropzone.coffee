@@ -650,6 +650,7 @@ class Dropzone extends Emitter
       setupHiddenFileInput()
 
     @URL = window.URL ? window.webkitURL
+    @allfiles = ''
 
 
     # Setup all event listeners on the Dropzone object itself.
@@ -743,7 +744,8 @@ class Dropzone extends Emitter
     activeFiles = @getActiveFiles()
 
     if activeFiles.length
-      for file in @getActiveFiles()
+      # for file in @getActiveFiles()
+      for file in @allfiles
         totalBytesSent += file.upload.bytesSent
         totalBytes += file.upload.total
       totalUploadProgress = 100 * totalBytesSent / totalBytes
@@ -967,7 +969,7 @@ class Dropzone extends Emitter
 
 
   # Wrapper for enqueueFile
-  enqueueFiles: (files) -> @enqueueFile file for file in files; null
+  enqueueFiles: (files) -> @enqueueFile file for file in files; @allfiles = @getQueuedFiles(); null
 
   enqueueFile: (file) ->
     if file.status == Dropzone.ADDED and file.accepted == true
